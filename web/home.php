@@ -3,7 +3,7 @@
 session_start();
 // If the user is not logged in redirect to the login page...
 if (!isset($_SESSION['loggedin'])) {
-	header('Location: index.html');
+	header('Location: index.php');
 	exit;
 }
 ?>
@@ -85,13 +85,38 @@ if (!isset($_SESSION['loggedin'])) {
       
       </div>
   </div>
+
+
+  <div class="row">
+        <form action="register.php" class="form-inline" method="post">     
+              <div class="form-check mb-2 mr-sm-2">
+                  <input id="agree" name="agree" class="form-check-input" type="checkbox" id="inlineFormCheck">
+                  <label  class="form-check-label " for="inlineFormCheck" >
+                    Juro por Snoopy que no usaré la cuenta creada para hacer cosas malignas
+                  </label>
+                </div>
+
+                <button id="enviar" type="submit"  disabled class="btn btn-primary mb-2">Siguiente</button>          
+        </form>
+  </div>
+
 </div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/js/jquery.min.js"></script>
   <script src="vendor/js/bootstrap.min.js"></script>
 
-
+  <script>
+          $(function() {
+              $('#agree').click(function() {
+                  if ($(this).is(':checked')) {
+                      $('#enviar').removeAttr('disabled');
+                  } else {
+                      $('#enviar').attr('disabled', 'disabled');
+                  }
+              });
+          });
+  </script>
 
 
 

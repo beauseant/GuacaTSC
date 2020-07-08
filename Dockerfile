@@ -8,8 +8,11 @@ RUN set -x \
     && docker-php-ext-install ldap \
     && apt-get purge -y --auto-remove libldap2-dev
 RUN a2enmod rewrite
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN service apache2 restart
+
 #COPY web /var/www/html
 #COPY data_php /usr/local/etc/php/
 #RUN apt-get install php7.0-ldap
-#RUN service apache2 restart
+
 EXPOSE 80
