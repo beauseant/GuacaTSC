@@ -12,5 +12,5 @@ Si se quiere usar el Docker:
 podman build -t myphp .
 
 Si se quiere modificar el código del docker:
-sudo podman run -it -v /home/breakthoven/Mis_Documentos/Empresa_Trabajillos/dockerPHP/web:/var/www/html -p 80:80 myphp
+sudo podman run -it -v /home/breakthoven/Mis_Documentos/Empresa_Trabajillos/GuacaTSC/web:/var/www/html -p 80:80 myphp
 

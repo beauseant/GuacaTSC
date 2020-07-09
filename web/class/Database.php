@@ -7,20 +7,17 @@ class GuacaDB {
 
  
 	function __construct() { 
-		$this -> configs = require('./config.php');
-
-		$servername = '10.89.0.5';
-		$username 	= 'guacamole_user';
-		$password 	= 'opCa#._123';
-		$dbname 	= 'guacamole_db';
+		$configs = require('./config.php');
 
 		// Create connection
-		$this -> conn = new mysqli($servername, $username, $password, $dbname);
+		$this-> conn = new mysqli($configs['DBHost'], $configs['DBUsername'], $configs['DBPassword'], $configs['DBName']);
 		// Check connection
-		if ($conn->connect_error) {
-		  die("Connection failed: " . $conn->connect_error);
+		if ($this-> conn->connect_error) {
+		  	#die("Connection failed: " . $this -> conn->connect_error);
+			return -1;
 		}
 
+		
 	}
 	
 	function __destruct() {
@@ -31,36 +28,66 @@ class GuacaDB {
 	}
 
 
-	function addUser ($user, $mypassword) {
-
-		$error = 0;
+	function addUserEntity ($user){
 
 		$sql = "INSERT INTO guacamole_entity (name, type) VALUES ('". $user . "','USER');";
 		
-		if ($this -> conn->query($sql) ==TRUE) {
-
-			$last = $this -> conn->insert_id;
-			$date = date('Y-m-d h:i:s', time());
-
-			$sql = 'SET @salt = UNHEX(SHA2(UUID(), 256))';
-			$this -> conn->query($sql);
-			
-			$sql = "INSERT INTO guacamole_user (entity_id, password_date, password_salt, password_hash) VALUES ('" . $last ."','". $date."',@salt, UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256)))";
-			
-			if ($this -> conn->query($sql) ==TRUE) {
-				$error = 0;
-			}else {
-				$error = $this -> conn->error;	
-			}
-
-		}else {	
-			$error = $this -> conn->error;
+		if ($this -> conn->query($sql) ==FALSE) {
+			$salida = -1;
+		}else{
+			$salida = $this -> conn->insert_id;
 		}
+
+		return $salida;
+
+
+	}
+
+	function addUser ($userid, $mypassword ) {
+
+		$error = 0;
+
+		$last = $userid;
+		$date = date('Y-m-d h:i:s', time());
+
+		$sql = 'SET @salt = UNHEX(SHA2(UUID(), 256))';
+		$this -> conn->query($sql);
+		
+		$sql = "INSERT INTO guacamole_user (entity_id, password_date, password_salt, password_hash) VALUES ('" . $last ."','". $date."',@salt, UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256)))";
+
+		$sql = $sql . " ON DUPLICATE KEY UPDATE password_date='". $date . "', password_salt=@salt, password_hash=UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256))";
+
+		if ($this -> conn->query($sql) ==TRUE) {
+			$error = '';
+		}else {
+			$error = $this -> conn->error;	
+		}
+
 		
 		return $error;
 
 
 	}
+
+	function userExists ($user) {
+
+		$sql = "select entity_id from guacamole_entity where name='". $user ."'";
+		$result = $this -> conn->query($sql);
+
+		
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			$salida = $row['entity_id'];
+		}else {
+		  $salida = -1;
+		}
+
+		return $salida;
+
+	}
+
+
+	
 /*	function addUser ($user, $mypassword) {
 
 		//$salt_hex = strtoupper(hash('sha256', $random_string));

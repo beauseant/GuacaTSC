@@ -1,7 +1,11 @@
 <?php
 
 return array(
-    'ldapHost' => '',
+    'ldapHost' 		=> '',
+    'DBHost'   		=> '',
+    'DBUsername' 	=> '',
+    'DBPassword'	=> '',
+    'DBName'		=>	'',
 );
 
 ?>

@@ -23,7 +23,7 @@ if (!isset($_SESSION['loggedin'])) {
   <!-- Bootstrap core CSS -->
   <link href="vendor/css/bootstrap.min.css" rel="stylesheet">
   
-      <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> 
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> 
 
   <link href="assets/app.css" rel="stylesheet" id="app-css">
 
