@@ -96,7 +96,6 @@
 				);
 				$id = $db -> addUserEntity ($user);
 
-				print $id;
 				if ($id >=0) {
 					$resultado = $db -> addUser ($id , $password );
 				}else{
