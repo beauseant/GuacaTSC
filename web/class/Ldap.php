@@ -75,7 +75,7 @@ class LdapUC3M {
 
       // En caso de no encontrarlo como personal, se busca como alumno:
       if ($info['count'] == 0) {
-        $sr=ldap_search($ds,"ou=Alumnos,ou=Gente,o=Universidad Carlos III,c=ES", "(&(uid=".$usuario.")(objectclass=inetOrgPerson))");
+        $sr=ldap_search($ds,"ou=Alumnos,ou=Gente,o=Universidad Carlos III,c=ES", "(&(uid=".$username.")(objectclass=inetOrgPerson))");
         $info = ldap_get_entries($ds, $sr);
         $tipo = 'alumno';
       }

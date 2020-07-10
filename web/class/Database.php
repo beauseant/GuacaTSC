@@ -43,7 +43,7 @@ class GuacaDB {
 
 	}
 
-	function addUser ($userid, $mypassword ) {
+	function addUser ($userid, $mypassword, $email, $fullname, $role) {
 
 		$error = 0;
 
@@ -53,9 +53,13 @@ class GuacaDB {
 		$sql = 'SET @salt = UNHEX(SHA2(UUID(), 256))';
 		$this -> conn->query($sql);
 		
-		$sql = "INSERT INTO guacamole_user (entity_id, password_date, password_salt, password_hash) VALUES ('" . $last ."','". $date."',@salt, UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256)))";
+		$sql = "INSERT INTO guacamole_user (entity_id, password_date, password_salt, password_hash, email_address, full_name, organizational_role)
+				 VALUES ('" . $last ."','". $date."',@salt, UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256)), email_address='" . $email. "', full_name='" . $fullname. "', organizational_role='" . $role. "')";
 
-		$sql = $sql . " ON DUPLICATE KEY UPDATE password_date='". $date . "', password_salt=@salt, password_hash=UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256))";
+		
+		//En caso de clave duplicada es que el usuario quiere cambiar la contraseña, pero aún así actulizamos el resto de campos por si ha cambiado su situación o su email:
+		$sql = $sql . " ON DUPLICATE KEY UPDATE password_date='". $date . "', password_salt=@salt, password_hash=UNHEX(SHA2(CONCAT('". $mypassword ."', HEX(@salt)), 256)),
+						email_address='" . $email .  "', full_name='" . $fullname. "', organizational_role='" . $role. "'";
 
 		if ($this -> conn->query($sql) ==TRUE) {
 			$error = '';

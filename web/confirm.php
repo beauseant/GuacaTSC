@@ -64,6 +64,10 @@
 
 			$user 		= $_SESSION['name'];
 			$password 	= $_POST['up'];
+			$email 		= $_SESSION['mail'];
+			$rol		= $_SESSION['tipo'];
+			$fullname	= $_SESSION['fullName'];
+
 
 			$userid = $db -> userExists ($user);
 
@@ -76,7 +80,8 @@
 					</div>
 					'					
 				);
-				$resultado = $db -> addUser ($userid , $password);
+				
+				$resultado = $db -> addUser ($userid , $password, $email, $fullname, $rol);
 
 				if ($resultado <>''){
 
@@ -88,12 +93,6 @@
 					);
 				}
 			}else {
-				print ('
-					<div class="alert alert-secondary" role="alert">
-	  					Se ha creado un usuario nuevo.
-					</div>
-					'
-				);
 				$id = $db -> addUserEntity ($user);
 
 				if ($id >=0) {
@@ -105,10 +104,19 @@
 				if ($resultado <>''){
 					print ('
 						<div class="alert alert-danger" role="alert">
-		  					Error creando el usuario: ' . $resultado . 
-						'</div>
-						'
+		  					Error creando el usuario en la base de datos.
+						</div>'
+						
 					);
+					exit();
+				}else {
+					print ('
+					<div class="alert alert-secondary" role="alert">
+	  					Se ha creado un usuario nuevo.
+					</div>
+					'
+				);
+
 				}
 			}
 		?>
