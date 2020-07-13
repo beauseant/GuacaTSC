@@ -96,7 +96,7 @@
 				$id = $db -> addUserEntity ($user);
 
 				if ($id >=0) {
-					$resultado = $db -> addUser ($id , $password );
+					$resultado = $db -> addUser ($id , $password , $email, $fullname, $rol);
 				}else{
 					$resultado = 1;
 				}
