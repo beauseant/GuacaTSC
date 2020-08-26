@@ -30,7 +30,7 @@ class GuacaDB {
 
 	function addUserGroup ($user, $group) {
 		
-		$sql = "INSERT INTO guacamole_user_group_member (user_group_id, member_entity_id) VALUES (". $user . "," .  $group  .")";
+		$sql = "INSERT INTO guacamole_user_group_member (user_group_id, member_entity_id) VALUES (". $group . "," .  $id  .")";
 
 
 
