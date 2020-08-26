@@ -49,7 +49,11 @@
 		<?php
 
 			require './class/Database.php';
+			$infoData = require('./config.php');
 
+			$group = $infoData['defaultUserGroup'];
+
+			
 			$db = new GuacaDB ();
 
 			if ($db == -1) {
@@ -67,6 +71,7 @@
 			$email 		= $_SESSION['mail'];
 			$rol		= $_SESSION['tipo'];
 			$fullname	= $_SESSION['fullName'];
+
 
 
 			$userid = $db -> userExists ($user);
@@ -97,9 +102,12 @@
 
 				if ($id >=0) {
 					$resultado = $db -> addUser ($id , $password , $email, $fullname, $rol);
+					$resultado2 = $db -> addUserGroup ($id , $group);
 				}else{
 					$resultado = 1;
 				}
+
+				
 
 				if ($resultado <>''){
 					print ('

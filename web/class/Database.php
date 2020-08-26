@@ -28,6 +28,23 @@ class GuacaDB {
 	}
 
 
+	function addUserGroup ($user, $group) {
+		
+		$sql = "INSERT INTO guacamole_user_group_member (user_group_id, member_entity_id) VALUES (". $user . "," .  $group  .")";
+
+
+
+		if ($this -> conn->query($sql) ==FALSE) {
+			$salida = $this -> conn->error;	
+		}else{
+			$salida = '';
+		}
+
+		return $salida;
+
+
+	}
+
 	function addUserEntity ($user){
 
 		$sql = "INSERT INTO guacamole_entity (name, type) VALUES ('". $user . "','USER');";
