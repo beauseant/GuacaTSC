@@ -6,6 +6,7 @@ return array(
     'DBUsername' 	=> '',
     'DBPassword'	=> '',
     'DBName'		=>	'',
+    'defaultUserGroup'		=> 3,
 );
 
 ?>
